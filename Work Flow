@@ -1,0 +1,96 @@
+## Workflow
+
+The repository is organized to allow reproducible analysis of the Cosmic Microwave Background (CMB) data, derivation of entropy spectra, and simulation of toroidal coherence dynamics under the HERT framework.
+
+### 1. Data Preparation
+- Download the **Planck 2018 SMICA IQU** map (`COM_CMB_IQU-smica_2048_R3.00_full.fits`) from the ESA Planck Legacy Archive.
+- Place the file in `/data/Planck/` or update its path within the analysis notebook.
+- Dependencies:  
+  ```bash
+  pip install healpy numpy matplotlib pandas
+Perfect — the **Workflow** section is where you explain *how* the HERT repository is meant to be used: the computational steps, dependencies, and logical order for running analyses or reproducing results.
+
+Here’s a polished, formal **Workflow** section you can insert after your “Repository Structure” in the README:
+
+---
+
+````markdown
+## Workflow
+
+The repository is organized to allow reproducible analysis of the Cosmic Microwave Background (CMB) data, derivation of entropy spectra, and simulation of toroidal coherence dynamics under the HERT framework.
+
+### 1. Data Preparation
+- Download the **Planck 2018 SMICA IQU** map (`COM_CMB_IQU-smica_2048_R3.00_full.fits`) from the ESA Planck Legacy Archive.
+- Place the file in `/data/Planck/` or update its path within the analysis notebook.
+- Dependencies:  
+  ```bash
+  pip install healpy numpy matplotlib pandas
+````
+
+### 2. CMB Analysis
+
+* Open `/notebooks/CMB_Analysis.ipynb` or the provided Colab link.
+* Run the temperature and polarization spectrum extraction using:
+
+  ```python
+  cl_iqu = hp.anafast([I, Q, U], pol=True)
+  ```
+* Compute and visualize the angular power spectra (TT, EE, BB).
+* Derive entropy-space transforms (`S_ℓ = k_B * ln(D_ℓ)`) and estimate entropy decay slopes.
+
+### 3. Entropy Metrics and Sigma Evaluation
+
+* Run the statistical block to compute:
+
+  * **Entropy slopes (TT, EE, BB)**
+  * **Cosmic-variance σ(Dℓ)**
+  * **Signal-to-noise ratios (SNR = Dℓ / σ(Dℓ))**
+* Export results automatically as `/docs/HERT_CMB_spectra.csv`.
+
+### 4. Toroidal Modeling
+
+* Navigate to `/models/Torus_Dynamics/`.
+* Review `toroidal_PDE_model.py` for the implementation of:
+
+  * Coherence density field `C`
+  * Collapse rate `α` (loosh production term)
+  * Source term `S`
+* PDE base form:
+  [
+  \frac{∂C}{∂t} + ∇·(Cv) = -αC + S
+  ]
+  where the torus is parameterized as:
+  [
+  r(θ,φ) = ((R + r\cosθ)\cosφ, (R + r\cosθ)\sinφ, r\sinθ)
+  ]
+
+### 5. Visualization
+
+* Use `matplotlib` or `healpy.mollview()` for map visualization.
+* For entropy-space plotting:
+
+  ```python
+  plt.loglog(ℓ, S_ℓ)
+  plt.xlabel("Multipole ℓ")
+  plt.ylabel("Entropy (k_B ln Dℓ)")
+  ```
+* Optional: Export figures to `/docs/Figures/`.
+
+### 6. Interpretation and Reporting
+
+* The `/docs/HERT_Whitepaper.pdf` provides interpretive and mathematical context for each computed dataset.
+* Numerical results (entropy slopes and σ-levels) correspond to coherence stability metrics across scales.
+
+### 7. Citation and Attribution
+
+If used in research or derivative work:
+
+> Mobley, L. S. (2025). *Holographic Entropic Receipt Theory: A Synthesis of CMB Evidence and Toroidal Modeling.*
+> HERT Framework Initiative. Licensed under CC-BY 4.0.
+
+---
+
+*This workflow provides an end-to-end process for deriving HERT entropy metrics from CMB data and exploring toroidal coherence simulations under a unified theoretical framework.*
+
+
+
