@@ -12,4 +12,5 @@ Key findings indicate that the CMB’s acoustic peaks exhibit high signal-to-noi
 
 The **toroidal model** represents the holographic feedback loop of energy-information flow, quantifying processes such as coherence collapse and the emission of *loosh* (energy released during entropy conversion). The framework scales from subatomic to cosmic systems.
 
+📄 [Download the HERT White Paper (PDF)](docs/HERT_Whitepaper.pdf)
 
